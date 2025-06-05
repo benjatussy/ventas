@@ -22,5 +22,6 @@ public class Venta {
     @Column(name = "id_vendedor")
     private Integer idVendedor;
 
+    @Column(name = "fecha_venta")
     private Date fecha_venta;
 }
