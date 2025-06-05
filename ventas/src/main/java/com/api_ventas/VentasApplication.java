@@ -1,4 +1,4 @@
-package com.api_ventas.ventas;
+package com.api_ventas;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

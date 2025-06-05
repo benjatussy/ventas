@@ -1,0 +1,26 @@
+package com.api_ventas.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+import java.util.Date;
+
+@Data
+@Entity
+@Table(name = "ventas")
+@NoArgsConstructor
+@AllArgsConstructor
+public class Venta {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_venta")
+    private Integer idVenta;
+
+    @Column(name = "id_cliente")
+    private Integer idCliente;
+
+    @Column(name = "id_vendedor")
+    private Integer idVendedor;
+
+    private Date fecha_venta;
+}
