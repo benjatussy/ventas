@@ -15,31 +15,30 @@ public class VentaController {
     @Autowired
     private VentaService ventaService;
 
-    // POST /ventas
+    
     @PostMapping
     public ResponseEntity<VentaDTO> crear(@RequestBody VentaDTO dto) {
         return ResponseEntity.ok(ventaService.crear(dto));
     }
 
-    // GET /ventas
+
     @GetMapping
     public ResponseEntity<List<VentaDTO>> listar() {
         return ResponseEntity.ok(ventaService.listar());
     }
 
-    // GET /ventas/{id}
+    
     @GetMapping("/{id}")
     public ResponseEntity<VentaDTO> obtener(@PathVariable Integer id) {
         return ResponseEntity.ok(ventaService.obtenerPorId(id));
     }
 
-    // PUT /ventas/{id}
     @PutMapping("/{id}")
-    public ResponseEntity<VentaDTO> actualizar(@PathVariable Integer id, @RequestBody VentaDTO dto) {
+    public ResponseEntity<VentaDTO> actualizar(@PathVariable Integer id, @RequestBody VentaDTO dto){
         return ResponseEntity.ok(ventaService.actualizar(id, dto));
     }
 
-    // DELETE /ventas/{id}
+   
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
         ventaService.eliminar(id);
