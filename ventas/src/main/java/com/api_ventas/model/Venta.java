@@ -24,4 +24,5 @@ public class Venta {
 
     @Column(name = "fecha_venta")
     private Date fecha_venta;
+    
 }

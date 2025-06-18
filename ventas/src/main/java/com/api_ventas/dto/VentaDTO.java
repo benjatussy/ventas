@@ -1,12 +1,13 @@
 package com.api_ventas.dto;
 
+import org.springframework.hateoas.RepresentationModel;
 import lombok.*;
 import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VentaDTO {
+public class VentaDTO extends RepresentationModel<VentaDTO> {
 
     private Integer id;
     private Integer idCliente;
