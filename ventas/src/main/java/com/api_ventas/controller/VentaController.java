@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo; 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import org.springframework.hateoas.Link;
 
 import java.util.List;
 
@@ -41,33 +41,47 @@ public class VentaController {
         return ResponseEntity.ok(ventaService.actualizar(id, dto));
     }
 
-   
-    @DeleteMapping("/{id}")
+
+        @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
         ventaService.eliminar(id);
         return ResponseEntity.noContent().build();
     }
 
-      @GetMapping("/hateoas/{id}")
+
+    @GetMapping("/hateoas/{id}")
     public VentaDTO obtenerHATEOAS(@PathVariable Integer id) {
         VentaDTO dto = ventaService.obtenerPorId(id);
-        
+        if (dto == null) {
+            return null;
+        }
+
         dto.add(linkTo(methodOn(VentaController.class).obtenerHATEOAS(id)).withSelfRel());
         dto.add(linkTo(methodOn(VentaController.class).obtenerTodosHATEOAS()).withRel("todos"));
         dto.add(linkTo(methodOn(VentaController.class).eliminar(id)).withRel("eliminar"));
 
+        
+        dto.add(Link.of("http://localhost:8090/api/proxy/ventas/" + dto.getId()).withSelfRel());
+        dto.add(Link.of("http://localhost:8090/api/proxy/ventas/" + dto.getId()).withRel("Modificar HATEOAS").withType("PUT"));
+        dto.add(Link.of("http://localhost:8090/api/proxy/ventas/" + dto.getId()).withRel("Eliminar HATEOAS").withType("DELETE"));
+
         return dto;
     }
 
-    //METODO HATEOAS para listar todos los productos utilizando HATEOAS
     @GetMapping("/hateoas")
     public List<VentaDTO> obtenerTodosHATEOAS() {
         List<VentaDTO> lista = ventaService.listar();
 
         for (VentaDTO dto : lista) {
+         
             dto.add(linkTo(methodOn(VentaController.class).obtenerHATEOAS(dto.getId())).withSelfRel());
+
+          
+            dto.add(Link.of("http://localhost:8090/api/proxy/ventas").withRel("Get todos HATEOAS"));
+            dto.add(Link.of("http://localhost:8090/api/proxy/ventas/" + dto.getId()).withRel("Crear HATEOAS").withType("POST"));
         }
 
         return lista;
     }
+
 }
